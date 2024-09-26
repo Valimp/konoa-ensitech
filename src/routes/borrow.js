@@ -1,5 +1,6 @@
 const express = require("express");
 const borrowController = require("../controllers/borrowController");
+const { protect } = require('../middlewares/authMiddleware');
 
 const router = express.Router();
 
@@ -35,7 +36,7 @@ const router = express.Router();
  *       500:
  *         description: Server error.
  */
-router.post("/", borrowController.borrowJutsuScroll);
+router.post("/", protect, borrowController.borrowJutsuScroll);
 
 /**
  * @swagger
@@ -69,6 +70,6 @@ router.post("/", borrowController.borrowJutsuScroll);
  *       500:
  *         description: Server error.
  */
-router.post("/return", borrowController.returnJutsuScroll);
+router.post("/return", protect, borrowController.returnJutsuScroll);
 
 module.exports = router;

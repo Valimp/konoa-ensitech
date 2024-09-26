@@ -6,6 +6,7 @@ const ninjasRoutes = require("./routes/ninjas");
 const empruntsRoutes = require("./routes/emprunts");
 const borrow = require("./routes/borrow");
 const log = require("./middlewares/log");
+const user = require("./routes/user");
 
 // Import Swagger configuration
 const { swaggerUi, swaggerDocs } = require('./config/swaggerConfig');
@@ -21,6 +22,7 @@ app.use(express.json());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 
+// Connect to MongoDB
 mongoose.connect(MONGODB_URI)
 .then(() => {
     console.log('Connexion à MongoDB réussie');
@@ -29,14 +31,12 @@ mongoose.connect(MONGODB_URI)
     console.error('Erreur de connexion à MongoDB :', err);
 });
 
-app.get("/", (req, res) => {
-  res.send("Hello World");
-});
-
+// Routes
 app.use("/jutsu-scrolls", log, jutsuScrollsRoutes);
 app.use("/ninjas", log, ninjasRoutes);
 app.use("/emprunts", log, empruntsRoutes);
 app.use("/borrow", log, borrow);
+app.use("/user", log, user);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
